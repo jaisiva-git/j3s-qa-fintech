@@ -1,4 +1,4 @@
-# J3S Fintech App (Spring Boot + React)
+## J3S Fintech App (Spring Boot + React)
 
 **Backend (Java 17, Maven, Spring Boot)** at `backend/`  
 **Frontend (React + Vite)** at `frontend/`

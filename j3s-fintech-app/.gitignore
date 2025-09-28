@@ -61,4 +61,5 @@ application-prod.properties
 # This is useful if a directory like 'src/main/target' exists and needs to be tracked
 !src/*/target/
 
- !j3s-fintech-app/frontend/node_modules/
+!j3s-fintech-app/frontend/node_modules/
+j3s-fintech-app/frontend/node_modules/
