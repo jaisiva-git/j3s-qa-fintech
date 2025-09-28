@@ -1,4 +1,4 @@
-# Simple Fintech Sample (Spring Boot + React)
+# J3S Fintech App (Spring Boot + React)
 
 **Backend (Java 17, Maven, Spring Boot)** at `backend/`  
 **Frontend (React + Vite)** at `frontend/`
@@ -26,7 +26,7 @@ POST `/api/users`
 ```json
 {
   "name": "John Doe",
-  "email": "john@example.com",
+  "email": "john@j3s.com",
   "accountType": "premium"
 }
 ```

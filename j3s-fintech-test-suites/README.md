@@ -10,7 +10,7 @@ Java 17 • Maven • Spring Boot • Rest Assured • Selenium • Cucumber
 
 ## Run tests
 ```bash
-mvn -Dtests.backendBaseUrl=http://localhost:8080 test
+mvn -Dtests.backendBaseUrl=http://localhost:5173 test
 ```
 
 Reports:

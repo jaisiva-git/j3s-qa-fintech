@@ -1,0 +1,62 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# STS (Spring Tool Suite)
+.metadata/
+
+# Log files
+*.log
+logs/
+
+# Compiled class files
+*.class
+
+# Package Files
+*.jar
+*.war
+*.ear
+
+# Temporary files
+*~
+*.bak
+*.swp
+*.swo
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Spring Boot specific
+# Exclude external configuration files that may contain sensitive data
+# For example, if you use a separate secrets.properties file
+secrets.properties
+application-dev.properties
+application-prod.properties
+
+# Exclude specific files or directories if needed
+# For instance, if you have a custom build directory
+# my-custom-build-output/
+
+# Enable specific files or directories that might be ignored by broader rules
+# This is useful if a directory like 'src/main/target' exists and needs to be tracked
+!src/*/target/

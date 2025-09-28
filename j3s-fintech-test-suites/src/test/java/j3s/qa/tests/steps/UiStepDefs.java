@@ -45,6 +45,7 @@ public class UiStepDefs {
     private WebDriver driver;
     private final List<String> createdUserIds = new ArrayList<>();
     private final Deque<String> uiCreatedUserIds = new ArrayDeque<>();
+    private final Deque<String> lastTxnUserIds = new ArrayDeque<>();
 
     private WebElement findFirst(By... locators) {
         for (By by : locators) {
@@ -148,6 +149,11 @@ public class UiStepDefs {
         getDriver().get(BASE_URL + "/index.html");
     }
 
+    @When("I reload the mock UI")
+    public void reload_mock_ui() {
+        getDriver().get(BASE_URL + "/index.html");
+    }
+
     @When("I register user {string} with {string} as {string}")
     public void register_user(String name, String email, String type) {
         WebDriver d = getDriver();
@@ -185,11 +191,11 @@ public class UiStepDefs {
 
     @Given("I ensure users exist for a transfer")
     public void i_ensure_users_exist_for_a_transfer() {
-        int needed = Math.max(0, 2 - uiCreatedUserIds.size());
+        int needed = Math.max(0, 5 - uiCreatedUserIds.size());
         for (int i = 0; i < needed; i++) {
             String name = (i == 0) ? "Alice" : "Bob";
-            String email = (i == 0) ? ("alice+" + System.currentTimeMillis() + "@example.com")
-                    : ("bob+"   + System.currentTimeMillis() + "@example.com");
+            String email = (i == 0) ? ("alice+" + System.currentTimeMillis() + "@j3s.com")
+                    : ("bob+"   + System.currentTimeMillis() + "@j3s.com");
             String type = "standard";
             register_user(name, email, type);
             String newUserId = verifyUserExistsAndGetId(email);
@@ -197,10 +203,12 @@ public class UiStepDefs {
             uiCreatedUserIds.add(newUserId);
         }
 
+        //Lets wait to get the users created.
+        try { Thread.sleep(300); } catch (InterruptedException ignored) {}
         ///html/body/div[1]/div/section[2]/div[1]/table/tbody/tr[2]/td[2]
         ///html/body/div[1]/div/section[2]/div[1]/table
         //Just ensure we have created two users
-        Assertions.assertTrue(uiCreatedUserIds.size() >= 2, "Failed to provision two users via UI.");
+        Assertions.assertTrue(uiCreatedUserIds.size() >= 2, "Failed to provision two users via UI: " + uiCreatedUserIds);
     }
 
     @When("I submit a transfer of {double} between the last two created users")
@@ -209,6 +217,9 @@ public class UiStepDefs {
                 "Need at least two users created via UI before transferring.");
         String from = uiCreatedUserIds.pop();
         String to   = uiCreatedUserIds.pop();
+        lastTxnUserIds.add(from);
+        lastTxnUserIds.add(to);
+        System.out.println("**** before submitting: lastTxnUserIds: " + lastTxnUserIds);
         transferAmount(from, to, amount);
     }
 
@@ -225,7 +236,25 @@ public class UiStepDefs {
         );
 
         System.out.println("*******Rows count: " + rows.size());
-        Assertions.assertTrue(rows.size() >= 2, "Failed to provision two users via UI.");
+        Assertions.assertTrue(rows.size() >= 1, "Failed to provision two users via UI.");
+
+        boolean txnFound = false;
+        System.out.println("****lastTxnUserIds: " + lastTxnUserIds);
+        String lastTxnUserId1 = lastTxnUserIds.pop();
+        String lastTxnUserId2 = lastTxnUserIds.pop();
+
+        for (WebElement row : rows) {
+            String rowText = row.getText();
+            System.out.println("***transaction rows: :" + row.getText());
+            if(rowText.contains(lastTxnUserId1) && rowText.contains(lastTxnUserId2)) {
+                //TODO: Include amount and timestamp or transaction ID
+                txnFound = true;
+            }
+        }
+
+        if(!txnFound) {
+            Assertions.fail("Transaction not found for the users: " + lastTxnUserId1 + " & " + lastTxnUserId2);
+        }
     }
 
     private String verifyUserExistsAndGetId(String userName){

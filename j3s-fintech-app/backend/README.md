@@ -6,7 +6,7 @@
   ```json
   {
     "name": "John Doe",
-    "email": "john@example.com",
+    "email": "john@j3s.com",
     "accountType": "premium"
   }
   ```

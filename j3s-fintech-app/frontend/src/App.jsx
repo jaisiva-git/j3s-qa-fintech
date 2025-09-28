@@ -59,7 +59,7 @@ export default function App() {
 
   return (
     <div style={{ fontFamily: 'sans-serif', padding: 24, maxWidth: 900, margin: '0 auto' }}>
-      <h1 data-testid="app-title">Fintech Sample UI</h1>
+      <h1 data-testid="app-title">J3S Fintech App UI</h1>
       {message && <p aria-live="polite" data-testid="status-message">{message}</p>}
 
       <section style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24 }}>
